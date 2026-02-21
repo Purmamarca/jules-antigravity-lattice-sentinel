@@ -1,0 +1,29 @@
+# GOOGLE ANTIGRAVITY: CURSOR RULES
+
+## PHILOSOPHY: AI AS AN AMPLIFIER
+- AI tools do not replace judgment; they amplify it. 
+- Strict adherence to architectural criteria is mandatory. If a request is vague, ask for clarification before generating code to avoid "architectural drift."
+
+## MANDATE: TDD FIRST (RED-GREEN-REFACTOR)
+- **ALWAYS** write a failing test in `tests/` before implementing logic in `src/`.
+- Logic must be the *minimum* required to pass the test (Avoid over-engineering).
+- Refactor only after a Green state is achieved.
+
+## ARCHITECTURAL STANDARDS
+- **Domain Integrity**: Use strongly typed models (Python `dataclasses`, `Enums`, `typing`). Avoid generic dictionaries for business logic.
+- **Saga Pattern**: Orchestration involving multiple infrastructure components (like `LatticeVault`) must follow the Saga Pattern with compensating transactions (rollbacks).
+- **Auditability**: Every intent and effect must be recorded in the `JulesAudit` service.
+- **Separation of Concerns**: 
+  - `src/domain/`: Pure business logic and models.
+  - `src/infrastructure/`: Side-effects and external integrations.
+  - `src/services/`: Cross-cutting concerns (Audit, Auth).
+  - `src/orchestrator.py`: Coordination of logic.
+
+## QUALITY GATES
+- All code must pass `pytest` with `pytest-asyncio`.
+- No "creative license" to deviate from the established `AuditTrail` or `LatticeState` structures.
+- Code must be in English.
+
+## PERFORMANCE & VELOCITY
+- TDD is not a speed bump; it is a stabilizer for long-term maintenance.
+- Parallelize Work: Ensure tests can run in isolation.
